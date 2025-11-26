@@ -1,0 +1,95 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.gameContainer {
+  height: 562px;
+  background-color: gray;
+}
+
+#title {
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+}
+.infoBoxes {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 80px;
+}
+.infoBox {
+  background-color: #fff;
+  width: 100px;
+  margin: auto;
+  height: 100%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.seesawContainer {
+  position: relative;
+  margin: auto;
+  margin-top: 50px;
+  width: 70%;
+  min-width: 450px;
+  background-color: rgba(0, 0, 0, 0.245);
+  height: 300px;
+  border-radius: 10px;
+}
+
+#seesawPlank {
+  width: 400px;
+  height: 20px;
+  background-color: brown;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+#pivot {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 60px solid #555;
+  margin: auto;
+  margin-top: 25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logsContainer {
+  margin: 0;
+  padding-top: 10px;
+  height: 500px;
+  background-color: #555;
+}
+#resetBtn {
+  display: flex;
+  margin: auto;
+  text-align: center;
+  border-radius: 5px;
+  height: 25px;
+  width: 100px;
+}
+
+.log {
+  display: flex;
+  margin: auto;
+  width: 60%;
+  background-color: #fff;
+  list-style: none;
+  border: 1px solid;
+  margin-top: 10px;
+  border-radius: 2px;
+  height: 30px;
+}

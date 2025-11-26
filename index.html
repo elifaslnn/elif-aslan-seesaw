@@ -3,13 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Seesaw</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body style="padding: 0; margin: 0">
-    <div class="gameContainer" style="height: 562px; background-color: #134686">
-      <h2 style="padding: 0; margin: 0; text-align: center">
-        SEESAW SIMULATION
-      </h2>
+  <body>
+    <div class="gameContainer">
+      <h2 id="title">SEESAW SIMULATION</h2>
       <div class="infoBoxes">
         <div class="infoBox" id="leftWeight">left weight</div>
         <div class="infoBox" id="rightWeight">right weight</div>
@@ -21,13 +20,13 @@
         <div id="pivot"></div>
       </div>
     </div>
-    <div class="logsConstainer">
-      <button>reset</button>
+    <div class="logsContainer">
+      <button id="resetBtn">RESET</button>
       <ul>
-        <li>log1</li>
-        <li>log2</li>
-        <li>log3</li>
-        <li>...</li>
+        <li class="log">log1</li>
+        <li class="log">log2</li>
+        <li class="log">log3</li>
+        <li class="log">...</li>
       </ul>
     </div>
   </body>
