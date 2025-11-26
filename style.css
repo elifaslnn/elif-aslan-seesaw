@@ -43,7 +43,7 @@ body {
 #seesawPlank {
   width: 400px;
   height: 20px;
-  background-color: #ffbf52;
+  background-color: #ffc052;
   border: 1px solid #7c1b1c;
   margin: auto;
   position: absolute;
@@ -51,15 +51,17 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+  transform-origin: center;
 }
 #cursorPoint {
-  position: absolute;
+  position: relative;
   left: -10px;
+  top: 22px;
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid #555;
+  border-bottom: 10px solid #ffffff;
 }
 
 #pivot {
