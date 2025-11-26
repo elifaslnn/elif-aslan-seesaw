@@ -2,15 +2,6 @@
 let x = Math.floor(Math.random() * 10 + 1);
 console.log(x);
 
-//creating dot
-/*.dot {
-  height: 25px;
-  width: 25px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-}*/
-
 //CREATING CIRCLE
 const circle = document.createElement("div");
 //CSS
@@ -29,3 +20,41 @@ circle.appendChild(weight);
 const seesawContainer = document.querySelector(".seesawContainer");
 
 seesawContainer.appendChild(circle);
+
+//çubuk üzerinde nokta belirleme
+
+const seesawPlank = document.querySelector("#seesawPlank");
+const cursorPoint = document.querySelector("#cursorPoint");
+
+function isTouchDiv() {
+  try {
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+//follow cursor for add weights
+const plankPosition = seesawPlank.getBoundingClientRect();
+const cursorPosition = cursorPoint.getBoundingClientRect();
+const cursorWidth = cursorPosition.width / 2;
+const startPlankX = plankPosition.left;
+const endPlankX = startPlankX + plankPosition.width - cursorWidth;
+
+const move = (e) => {
+  try {
+    var x = !isTouchDiv() ? e.pageX : e.touches[0].pageX;
+  } catch (error) {}
+
+  console.log(x);
+  if (x >= startPlankX - cursorWidth && x <= endPlankX)
+    cursorPoint.style.left = `${x - startPlankX - 10}px`;
+};
+
+document.addEventListener("mousemove", (e) => {
+  move(e);
+});
+document.addEventListener("touchmove", (e) => {
+  move(e);
+});
