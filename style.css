@@ -5,14 +5,13 @@ body {
 
 .gameContainer {
   height: 562px;
-  background-color: gray;
+  background-color: #134686;
 }
-
 #title {
   padding: 10px;
   margin: 0;
   text-align: center;
-  color: #fff;
+  color: #ed3f27;
 }
 .infoBoxes {
   margin-top: 20px;
@@ -22,12 +21,13 @@ body {
   height: 80px;
 }
 .infoBox {
-  background-color: #fff;
+  background-color: #fdf4e3;
   width: 100px;
   margin: auto;
   height: 100%;
   border-radius: 5px;
   text-align: center;
+  color: #ed3f27;
 }
 
 .seesawContainer {
@@ -44,7 +44,8 @@ body {
 #seesawPlank {
   width: 400px;
   height: 20px;
-  background-color: brown;
+  background-color: #ffbf52;
+  border: 1px solid #7c1b1c;
   margin: auto;
   position: absolute;
   top: 50%;
@@ -58,7 +59,7 @@ body {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-bottom: 60px solid #555;
+  border-bottom: 60px solid #9c9c9c;
   margin: auto;
   margin-top: 25px;
   position: absolute;
@@ -71,7 +72,7 @@ body {
   margin: 0;
   padding-top: 10px;
   height: 500px;
-  background-color: #555;
+  background-color: #fdf4e3;
 }
 #resetBtn {
   display: flex;
@@ -85,11 +86,13 @@ body {
 .log {
   display: flex;
   margin: auto;
-  width: 60%;
-  background-color: #fff;
+  width: 70%;
+  background-color: #363636;
+  color: #fdf4e3;
   list-style: none;
-  border: 1px solid;
   margin-top: 10px;
-  border-radius: 2px;
+  border-radius: 8px;
   height: 30px;
+  padding-left: 10px;
+  padding-top: 5px;
 }
