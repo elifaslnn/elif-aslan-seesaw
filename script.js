@@ -73,18 +73,29 @@ document.addEventListener("touchmove", (e) => {
   move(e);
 });
 
+let leftTorque = 0;
+let rightTorque = 0;
+const leftWeights = [];
+const rightWeights = [];
+
 //adding weigths to clicked point
 document.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
-    console.log("burada");
-    console.log(e.pageX);
+    //console.log("burada");
+    //console.log(e.pageX);
     const weight = createWeight(e.pageX, startPlankX);
     determiningDirectionAndDistance(e.pageX, weight);
+    const leftTorque = calculateTorque(leftWeights);
+    const rightTorque = calculateTorque(rightWeights);
+
+    //console.log(leftTorque);
+    //console.log(rightTorque);
+
+    const angle = calculateAngle(rightTorque, leftTorque);
+
+    seesawPlank.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
   }
 });
-
-const leftWeights = [];
-const rightWeights = [];
 
 //left or right
 const determiningDirectionAndDistance = (clickedPoint, weight) => {
@@ -101,18 +112,22 @@ const determiningDirectionAndDistance = (clickedPoint, weight) => {
   } else {
     leftWeights.push(obj);
   }
-  console.log("left array: ", leftWeights);
-  console.log("right array: ", rightWeights);
+  //console.log("left array: ", leftWeights);
+  //console.log("right array: ", rightWeights);
 };
 
-const sumFunc = (arr) => {
-  let sum = 0;
-  arr.forEach((element) => {});
+const calculateTorque = (arr) => {
+  let torque = 0;
+  arr.forEach((obj) => {
+    torque += obj.weight * obj.distance;
+  });
+  //console.log("weigth sum: ", torque);
+  return torque;
 };
-const calculateTorque = () => {
-  //const torque = sum(weight × distance)
-};
-const calculateAngle = () => {
-  //const angle = Math.max(-30, Math.min(30, (rightTorque - leftTorque) / 10))
+
+const calculateAngle = (rightTorque, leftTorque) => {
+  const angle = Math.max(-30, Math.min(30, (rightTorque - leftTorque) / 10));
+  console.log("angle: ", angle);
+  return angle;
 };
 //seesawPlank.style.transform = "translate(-50%, -50%) rotate(30deg)";
