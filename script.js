@@ -1,33 +1,44 @@
-//creating random number
-let x = Math.floor(Math.random() * 10 + 1);
-console.log(x);
-
-//CREATING CIRCLE
-const circle = document.createElement("div");
-//CSS
-circle.style.height = "25px";
-circle.style.width = "25px";
-circle.style.backgroundColor = "white";
-circle.style.borderRadius = "50%";
-circle.style.textAlign = "center";
-circle.style.position = "absolute";
-circle.style.top = "0";
-circle.style.zIndex = 2;
-
-//APIRLIK TEXT İ OLUŞTUR
-const weight = document.createElement("p");
-weight.innerHTML = x;
-
-circle.appendChild(weight);
-//CONTAINERA EKLE
-const seesawContainer = document.querySelector(".seesawContainer");
-
-//çubuk üzerinde nokta belirleme
-
 const seesawPlank = document.querySelector("#seesawPlank");
 const cursorPoint = document.querySelector("#cursorPoint");
+const seesawContainer = document.querySelector(".seesawContainer");
 
-//seesawPlank.appendChild(circle);
+//creating random number
+const createRondomNumber = () => {
+  let x = Math.floor(Math.random() * 10 + 1);
+  return x;
+};
+
+const createWeight = (x, startPlankX) => {
+  //CREATING weight and add class
+  //const el = Object.assign(document.createElement('div'), { className: 'foo' });
+  const weight = Object.assign(document.createElement("div"), {
+    className: "allWeights",
+  });
+  //add
+  //first get count of planks child for set id
+  const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak1(cursor point var) o yüzden -1 değerini alacağım
+  weight.setAttribute("id", `weight-${childNodesCount - 1}`);
+  //CSS
+  weight.style.height = "25px";
+  weight.style.width = "25px";
+  weight.style.backgroundColor = "white";
+  weight.style.borderRadius = "50%";
+  weight.style.textAlign = "center";
+  weight.style.position = "absolute";
+  weight.style.top = "0";
+  weight.style.zIndex = 2;
+  weight.style.left = `${x - startPlankX - 10}px`;
+  //sayıyı al
+  const randomNumber = createRondomNumber();
+  //sayıyı weight İÇİNE YAZ
+
+  weight.innerHTML = randomNumber;
+
+  //seesaw' a kaydet
+  seesawPlank.appendChild(weight);
+};
+
+//çubuk üzerinde nokta belirleme
 function isTouchDiv() {
   try {
     document.createEvent("TouchEvent");
@@ -47,16 +58,18 @@ const endPlankX = startPlankX + plankPosition.width - cursorWidth;
 const move = (e) => {
   try {
     var x = !isTouchDiv() ? e.pageX : e.touches[0].pageX;
+    if (x >= startPlankX - cursorWidth && x <= endPlankX) {
+      cursorPoint.style.left = `${x - startPlankX - 10}px`;
+      //   document.addEventListener("click", () => {
+      //     console.log(x);
+      //     //weight.style.left = `${x - startPlankX - 10}px`;
+      //     createWeight(x, startPlankX);
+      //   });
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {}
-
-  if (x >= startPlankX - cursorWidth && x <= endPlankX) {
-    cursorPoint.style.left = `${x - startPlankX - 10}px`;
-    document.addEventListener("click", () => {
-      console.log(x);
-      circle.style.left = `${x - startPlankX - 10}px`;
-      seesawPlank.appendChild(circle);
-    });
-  }
 };
 
 document.addEventListener("mousemove", (e) => {
@@ -66,4 +79,12 @@ document.addEventListener("touchmove", (e) => {
   move(e);
 });
 
-seesawPlank.style.transform = "translate(-50%, -50%) rotate(30deg)";
+document.addEventListener("click", (e) => {
+  if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
+    console.log("burada");
+    console.log(e.pageX);
+    createWeight(e.pageX, startPlankX);
+  }
+  //createWeight(e.pageX, startPlankX);
+});
+//seesawPlank.style.transform = "translate(-50%, -50%) rotate(30deg)";
