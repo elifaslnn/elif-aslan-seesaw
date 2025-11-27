@@ -7,6 +7,8 @@ const rightWeightInfoBox = document.querySelector("#rightWeight");
 const leftWeightInfoBox = document.querySelector("#leftWeight");
 const tiltAngleInfoBox = document.querySelector("#tiltAngle");
 
+const clicable = document.querySelector(".clicable");
+
 const h4nextWeight = nextWeightInfoBox.querySelector("h4");
 const h4leftWeight = leftWeightInfoBox.querySelector("h4");
 const h4rightWeight = rightWeightInfoBox.querySelector("h4");
@@ -18,6 +20,8 @@ const cursorPosition = cursorPoint.getBoundingClientRect();
 const cursorWidth = cursorPosition.width / 2;
 const startPlankX = plankPosition.left;
 const endPlankX = startPlankX + plankPosition.width - cursorWidth;
+
+const resetBtn = document.querySelector("#resetBtn");
 
 let nextWeight;
 
@@ -87,10 +91,10 @@ const move = (e) => {
   } catch (error) {}
 };
 
-document.addEventListener("mousemove", (e) => {
+clicable.addEventListener("mousemove", (e) => {
   move(e);
 });
-document.addEventListener("touchmove", (e) => {
+clicable.addEventListener("touchmove", (e) => {
   move(e);
 });
 
@@ -154,7 +158,7 @@ const creatLog = (side, weight, distance) => {
 
 //FINAL
 //adding weigths to clicked point
-document.addEventListener("click", (e) => {
+clicable.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
     const weight = createWeight(e.pageX, startPlankX);
     nextWeight = createRondomNumber();
@@ -168,4 +172,9 @@ document.addEventListener("click", (e) => {
     h4rightWeight.innerHTML = `${calculateSidesWeight(rightWeights)}`;
     h4tilAngle.innerHTML = `${Math.floor(angle)}`;
   }
+});
+
+//RESET
+resetBtn.addEventListener("click", () => {
+  location.reload();
 });
