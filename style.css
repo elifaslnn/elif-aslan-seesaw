@@ -22,7 +22,7 @@ body {
 }
 .infoBox {
   background-color: #fdf4e3;
-  width: 100px;
+  width: 120px;
   margin: auto;
   height: 100%;
   border-radius: 5px;
@@ -52,6 +52,9 @@ body {
   transform: translate(-50%, -50%);
   z-index: 1;
   transition: transform 1s ease;
+}
+.infoBox h3 {
+  margin: 2px;
 }
 #cursorPoint {
   position: relative;
@@ -107,6 +110,16 @@ body {
   padding-top: 5px;
 }
 
+.logUl {
+  margin: auto;
+  margin-top: 20px;
+  width: 70%;
+  height: 300px;
+  overflow: auto;
+  scrollbar-color: red orange;
+  /* border: 1px solid #ccc; */
+  padding: 10px;
+}
 .demo {
   height: 200px;
   width: 200px;
