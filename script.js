@@ -1,6 +1,7 @@
 const seesawPlank = document.querySelector("#seesawPlank");
 const cursorPoint = document.querySelector("#cursorPoint");
 const seesawContainer = document.querySelector(".seesawContainer");
+const logUl = document.querySelector(".logUl");
 
 //getting positions
 const plankPosition = seesawPlank.getBoundingClientRect();
@@ -17,7 +18,6 @@ const createRondomNumber = () => {
 
 const createWeight = (x, startPlankX) => {
   //CREATING weight and add class
-  //const el = Object.assign(document.createElement('div'), { className: 'foo' });
   const weight = Object.assign(document.createElement("div"), {
     className: "allWeights",
   });
@@ -25,19 +25,22 @@ const createWeight = (x, startPlankX) => {
   const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak1(cursor point var) o yüzden -1 değerini alacağım
   weight.setAttribute("id", `weight-${childNodesCount - 1}`);
   //CSS
-  weight.style.height = "25px";
-  weight.style.width = "25px";
+  weight.style.height = "30px";
+  weight.style.width = "30px";
   weight.style.backgroundColor = "white";
   weight.style.borderRadius = "50%";
   weight.style.textAlign = "center";
   weight.style.position = "absolute";
-  weight.style.top = "0";
+  weight.style.bottom = "0";
   weight.style.zIndex = 2;
+  weight.style.textAlign = "center";
+  weight.style.justifyItems = "center";
+
   weight.style.left = `${x - startPlankX - 10}px`;
   //sayıyı al
   const randomNumber = createRondomNumber();
   //sayıyı weight İÇİNE YAZ
-  weight.innerHTML = randomNumber;
+  weight.innerHTML = `${randomNumber}kg`;
   //seesaw' a kaydet
   seesawPlank.appendChild(weight);
   return randomNumber;
@@ -77,30 +80,11 @@ let leftTorque = 0;
 let rightTorque = 0;
 const leftWeights = [];
 const rightWeights = [];
-
-//adding weigths to clicked point
-document.addEventListener("click", (e) => {
-  if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
-    //console.log("burada");
-    //console.log(e.pageX);
-    const weight = createWeight(e.pageX, startPlankX);
-    determiningDirectionAndDistance(e.pageX, weight);
-    const leftTorque = calculateTorque(leftWeights);
-    const rightTorque = calculateTorque(rightWeights);
-
-    //console.log(leftTorque);
-    //console.log(rightTorque);
-
-    const angle = calculateAngle(rightTorque, leftTorque);
-
-    seesawPlank.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-  }
-});
+let isLeft;
 
 //left or right
 const determiningDirectionAndDistance = (clickedPoint, weight) => {
   const centerPoint = startPlankX + (endPlankX - startPlankX) / 2;
-  //const absoluteValue = Math.abs(negativeNumber)
   const distance = clickedPoint - centerPoint;
   const absoluteDistance = Math.abs(distance);
   const obj = {
@@ -109,11 +93,12 @@ const determiningDirectionAndDistance = (clickedPoint, weight) => {
   };
   if (clickedPoint - centerPoint > 0) {
     rightWeights.push(obj);
+    creatLog("right", weight, Math.floor(absoluteDistance));
   } else {
     leftWeights.push(obj);
+    isLeft = true;
+    creatLog("left", weight, Math.floor(absoluteDistance));
   }
-  //console.log("left array: ", leftWeights);
-  //console.log("right array: ", rightWeights);
 };
 
 const calculateTorque = (arr) => {
@@ -121,7 +106,6 @@ const calculateTorque = (arr) => {
   arr.forEach((obj) => {
     torque += obj.weight * obj.distance;
   });
-  //console.log("weigth sum: ", torque);
   return torque;
 };
 
@@ -130,4 +114,27 @@ const calculateAngle = (rightTorque, leftTorque) => {
   console.log("angle: ", angle);
   return angle;
 };
-//seesawPlank.style.transform = "translate(-50%, -50%) rotate(30deg)";
+
+//log kayıtları
+const creatLog = (side, weight, distance) => {
+  //creat li element
+  const logLi = Object.assign(document.createElement("li"), {
+    className: "log",
+  });
+  logLi.innerHTML = `${weight}kg added on ${side} side at ${distance}px from center`;
+
+  logUl.appendChild(logLi);
+};
+
+//FINAL
+//adding weigths to clicked point
+document.addEventListener("click", (e) => {
+  if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
+    const weight = createWeight(e.pageX, startPlankX);
+    determiningDirectionAndDistance(e.pageX, weight);
+    const leftTorque = calculateTorque(leftWeights);
+    const rightTorque = calculateTorque(rightWeights);
+    const angle = calculateAngle(rightTorque, leftTorque);
+    seesawPlank.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+  }
+});
