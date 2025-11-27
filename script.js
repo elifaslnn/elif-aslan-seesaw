@@ -2,6 +2,13 @@ const seesawPlank = document.querySelector("#seesawPlank");
 const cursorPoint = document.querySelector("#cursorPoint");
 const seesawContainer = document.querySelector(".seesawContainer");
 
+//getting positions
+const plankPosition = seesawPlank.getBoundingClientRect();
+const cursorPosition = cursorPoint.getBoundingClientRect();
+const cursorWidth = cursorPosition.width / 2;
+const startPlankX = plankPosition.left;
+const endPlankX = startPlankX + plankPosition.width - cursorWidth;
+
 //creating random number
 const createRondomNumber = () => {
   let x = Math.floor(Math.random() * 10 + 1);
@@ -14,8 +21,7 @@ const createWeight = (x, startPlankX) => {
   const weight = Object.assign(document.createElement("div"), {
     className: "allWeights",
   });
-  //add
-  //first get count of planks child for set id
+  //add id: first get count of planks child for set id
   const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak1(cursor point var) o yüzden -1 değerini alacağım
   weight.setAttribute("id", `weight-${childNodesCount - 1}`);
   //CSS
@@ -31,11 +37,10 @@ const createWeight = (x, startPlankX) => {
   //sayıyı al
   const randomNumber = createRondomNumber();
   //sayıyı weight İÇİNE YAZ
-
   weight.innerHTML = randomNumber;
-
   //seesaw' a kaydet
   seesawPlank.appendChild(weight);
+  return randomNumber;
 };
 
 //çubuk üzerinde nokta belirleme
@@ -48,23 +53,12 @@ function isTouchDiv() {
   }
 }
 
-//follow cursor for add weights
-const plankPosition = seesawPlank.getBoundingClientRect();
-const cursorPosition = cursorPoint.getBoundingClientRect();
-const cursorWidth = cursorPosition.width / 2;
-const startPlankX = plankPosition.left;
-const endPlankX = startPlankX + plankPosition.width - cursorWidth;
-
+//follow cursor to get adding weight position
 const move = (e) => {
   try {
     var x = !isTouchDiv() ? e.pageX : e.touches[0].pageX;
     if (x >= startPlankX - cursorWidth && x <= endPlankX) {
       cursorPoint.style.left = `${x - startPlankX - 10}px`;
-      //   document.addEventListener("click", () => {
-      //     console.log(x);
-      //     //weight.style.left = `${x - startPlankX - 10}px`;
-      //     createWeight(x, startPlankX);
-      //   });
       return true;
     } else {
       return false;
@@ -79,12 +73,46 @@ document.addEventListener("touchmove", (e) => {
   move(e);
 });
 
+//adding weigths to clicked point
 document.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
     console.log("burada");
     console.log(e.pageX);
-    createWeight(e.pageX, startPlankX);
+    const weight = createWeight(e.pageX, startPlankX);
+    determiningDirectionAndDistance(e.pageX, weight);
   }
-  //createWeight(e.pageX, startPlankX);
 });
+
+const leftWeights = [];
+const rightWeights = [];
+
+//left or right
+const determiningDirectionAndDistance = (clickedPoint, weight) => {
+  const centerPoint = startPlankX + (endPlankX - startPlankX) / 2;
+  //const absoluteValue = Math.abs(negativeNumber)
+  const distance = clickedPoint - centerPoint;
+  const absoluteDistance = Math.abs(distance);
+  const obj = {
+    weight: weight,
+    distance: absoluteDistance,
+  };
+  if (clickedPoint - centerPoint > 0) {
+    rightWeights.push(obj);
+  } else {
+    leftWeights.push(obj);
+  }
+  console.log("left array: ", leftWeights);
+  console.log("right array: ", rightWeights);
+};
+
+const sumFunc = (arr) => {
+  let sum = 0;
+  arr.forEach((element) => {});
+};
+const calculateTorque = () => {
+  //const torque = sum(weight × distance)
+};
+const calculateAngle = () => {
+  //const angle = Math.max(-30, Math.min(30, (rightTorque - leftTorque) / 10))
+};
 //seesawPlank.style.transform = "translate(-50%, -50%) rotate(30deg)";
