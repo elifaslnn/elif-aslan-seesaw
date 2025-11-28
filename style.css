@@ -58,6 +58,7 @@ body {
   transform: translate(-50%, -50%);
   transition: transform 1s;
   z-index: 1;
+  cursor: pointer;
 }
 .infoBox h3 {
   margin: 2px;
