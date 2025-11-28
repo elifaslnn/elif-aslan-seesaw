@@ -7,8 +7,6 @@ const rightWeightInfoBox = document.querySelector("#rightWeight");
 const leftWeightInfoBox = document.querySelector("#leftWeight");
 const tiltAngleInfoBox = document.querySelector("#tiltAngle");
 
-const clicable = document.querySelector(".clicable");
-
 const h4nextWeight = nextWeightInfoBox.querySelector("h4");
 const h4leftWeight = leftWeightInfoBox.querySelector("h4");
 const h4rightWeight = rightWeightInfoBox.querySelector("h4");
@@ -105,10 +103,10 @@ const move = (e) => {
   } catch (error) {}
 };
 
-clicable.addEventListener("mousemove", (e) => {
+seesawPlank.addEventListener("mousemove", (e) => {
   move(e);
 });
-clicable.addEventListener("touchmove", (e) => {
+seesawPlank.addEventListener("touchmove", (e) => {
   move(e);
   cursorPoint.style.display = "none";
 });
@@ -172,7 +170,7 @@ const creatLog = (side, weight, distance) => {
 
 //FINAL
 //adding weigths to clicked point
-clicable.addEventListener("click", (e) => {
+seesawPlank.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth + 10 && e.pageX <= endPlankX + 10) {
     popAudio.play();
     popAudio.currenTime = 0;

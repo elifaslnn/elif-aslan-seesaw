@@ -46,19 +46,7 @@ body {
   height: 300px;
   border-radius: 10px;
 }
-.clicable {
-  padding: 90px 20px;
-  height: 200px;
-  width: 420px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  /* background-color: rgba(255, 166, 179, 0.405); */
-  z-index: 1;
-  cursor: pointer;
-}
+
 #seesawPlank {
   width: 400px;
   height: 20px;
@@ -69,6 +57,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 1s;
+  z-index: 1;
 }
 .infoBox h3 {
   margin: 2px;
