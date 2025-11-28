@@ -12,7 +12,6 @@ const h4leftWeight = leftWeightInfoBox.querySelector("h4");
 const h4rightWeight = rightWeightInfoBox.querySelector("h4");
 const h4tilAngle = tiltAngleInfoBox.querySelector("h4");
 
-//getting positions
 const plankPosition = seesawPlank.getBoundingClientRect();
 const cursorPosition = cursorPoint.getBoundingClientRect();
 const cursorWidth = cursorPosition.width / 2;
@@ -46,46 +45,33 @@ const weightObject = {
 //creating random number
 const createRondomNumber = () => {
   let x = Math.floor(Math.random() * 10 + 1);
-  //ağrılığı ui'da gösterme
-
   h4nextWeight.innerHTML = `${x}kg`;
   return x;
 };
 
-//ilk ağırlığı oluştur
+//creat first weight
 nextWeight = createRondomNumber();
 
 const createWeight = (x, startPlankX, objectWeight) => {
-  //CREATING weight and add class
+  //creating weight objects
   const weight = Object.assign(document.createElement("div"), {
     className: "allWeights",
   });
-  //add id: first get count of planks child for set id
-  const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak(cursor point var) o yüzden -1 değerini alacağım
+  //add id: get planks child for set id
+  const childNodesCount = seesawPlank.childElementCount;
   weight.setAttribute("id", `weight-${childNodesCount - 1}`);
-  //CSS
-  console.log(`${weightObject[objectWeight].width}`);
+  //adiing CSS to object
   weight.style.height = `${weightObject[objectWeight].width}px`;
   weight.style.width = `${weightObject[objectWeight].width}px`;
   weight.style.backgroundColor = `${weightObject[objectWeight].color}`;
-  weight.style.borderRadius = "50%";
-  weight.style.textAlign = "center";
-  weight.style.position = "absolute";
-  weight.style.bottom = "0";
-  weight.style.zIndex = 2;
-  weight.style.textAlign = "center";
-  weight.style.justifyItems = "center";
-  weight.style.animation = "createCircle 0.5s";
-
   weight.style.left = `${x - startPlankX - 10}px`;
-  //sayıyı weight İÇİNE YAZ
+  //add text
   weight.innerHTML = `${objectWeight}kg`;
-  //seesaw' a kaydet
+  //append to seesaw plank
   seesawPlank.appendChild(weight);
   return objectWeight;
 };
 
-//çubuk üzerinde nokta belirleme
 function isTouchDiv() {
   try {
     document.createEvent("TouchEvent");
@@ -95,7 +81,7 @@ function isTouchDiv() {
   }
 }
 
-//follow cursor to get adding weight position
+//follow cursor
 const move = (e) => {
   try {
     var x = !isTouchDiv() ? e.pageX : e.touches[0].pageX;
@@ -116,7 +102,7 @@ seesawPlank.addEventListener("touchmove", (e) => {
   cursorPoint.style.display = "none";
 });
 
-//left or right
+//determine directions(left or right) and geting distance from the center
 const determiningDirectionAndDistance = (
   clickedPoint,
   weight,
@@ -140,6 +126,7 @@ const determiningDirectionAndDistance = (
   }
 };
 
+// sum of sides weight
 const calculateSidesWeight = (arr) => {
   let sum = 0;
   arr.forEach((obj) => {
@@ -148,6 +135,7 @@ const calculateSidesWeight = (arr) => {
   return sum;
 };
 
+//calculate torque
 const calculateTorque = (arr) => {
   let torque = 0;
   arr.forEach((obj) => {
@@ -156,13 +144,13 @@ const calculateTorque = (arr) => {
   return torque;
 };
 
+//calculate angle
 const calculateAngle = (rightTorque, leftTorque) => {
   const angle = Math.max(-30, Math.min(30, (rightTorque - leftTorque) / 10));
-  console.log("angle: ", angle);
   return angle;
 };
 
-//log kayıtları
+//log recordes
 const creatLog = (side, weight, distance) => {
   const logLi = Object.assign(document.createElement("li"), {
     className: "log",
@@ -171,17 +159,28 @@ const creatLog = (side, weight, distance) => {
   logUl.appendChild(logLi);
 };
 
+//informations add to ui
 const setInfoBoxData = (angle) => {
   h4leftWeight.innerHTML = `${calculateSidesWeight(leftWeights)}`;
   h4rightWeight.innerHTML = `${calculateSidesWeight(rightWeights)}`;
   h4tilAngle.innerHTML = `${Math.floor(angle)}`;
 };
+
+function isMobile() {
+  const regex =
+    /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  return regex.test(navigator.userAgent);
+}
+
+if (isMobile()) {
+  cursorPoint.style.display = "none";
+}
+
 //FINAL
 //adding weigths to clicked point
 seesawPlank.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth + 10 && e.pageX <= endPlankX + 10) {
     popAudio.play();
-    popAudio.currenTime = 0;
     const weight = createWeight(e.pageX, startPlankX, nextWeight);
     nextWeight = createRondomNumber();
     determiningDirectionAndDistance(e.pageX, weight, false);
@@ -192,8 +191,8 @@ seesawPlank.addEventListener("click", (e) => {
     seesawPlank.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
     setInfoBoxData(angle);
     //set LOCAL STORAGE
-    localStorage.setItem("left weights", JSON.stringify(leftWeights));
-    localStorage.setItem("right weights", JSON.stringify(rightWeights));
+    localStorage.setItem("leftWeights", JSON.stringify(leftWeights));
+    localStorage.setItem("rightWeights", JSON.stringify(rightWeights));
     localStorage.setItem("angle", angle);
     localStorage.setItem(
       "left weight sum",
@@ -206,29 +205,16 @@ seesawPlank.addEventListener("click", (e) => {
   }
 });
 
-function isMobile() {
-  const regex =
-    /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-  return regex.test(navigator.userAgent);
-}
-
-if (isMobile()) {
-  cursorPoint.style.display = "none";
-}
-
 //LOCAL STORAGE GET
 if (localStorage.length != 0) {
-  leftWeights = JSON.parse(localStorage.getItem("left weights"));
-  rightWeights = JSON.parse(localStorage.getItem("right weights"));
+  leftWeights = JSON.parse(localStorage.getItem("leftWeights"));
+  rightWeights = JSON.parse(localStorage.getItem("rightWeights"));
   const angle = localStorage.getItem("angle");
-  console.log(leftWeights);
   leftWeights.forEach((element) => {
-    console.log(element.positionX);
     createWeight(element.positionX, startPlankX, element.weight);
     determiningDirectionAndDistance(element.positionX, element.weight, true);
   });
   rightWeights.forEach((element) => {
-    console.log(element.positionX);
     createWeight(element.positionX, startPlankX, element.weight);
     determiningDirectionAndDistance(element.positionX, element.weight, true);
   });
@@ -241,5 +227,3 @@ resetBtn.addEventListener("click", () => {
   localStorage.clear();
   location.reload();
 });
-
-console.log(leftWeights);
