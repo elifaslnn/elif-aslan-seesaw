@@ -82,7 +82,7 @@ function isTouchDiv() {
 const move = (e) => {
   try {
     var x = !isTouchDiv() ? e.pageX : e.touches[0].pageX;
-    if (x >= startPlankX - cursorWidth && x <= endPlankX) {
+    if (x >= startPlankX - cursorWidth + 10 && x <= endPlankX + 10) {
       cursorPoint.style.left = `${x - startPlankX - 10}px`;
       return true;
     } else {
@@ -147,7 +147,6 @@ const calculateAngle = (rightTorque, leftTorque) => {
 
 //log kayıtları
 const creatLog = (side, weight, distance) => {
-  //creat li element
   const logLi = Object.assign(document.createElement("li"), {
     className: "log",
   });
@@ -159,7 +158,7 @@ const creatLog = (side, weight, distance) => {
 //FINAL
 //adding weigths to clicked point
 clicable.addEventListener("click", (e) => {
-  if (e.pageX >= startPlankX - cursorWidth && e.pageX <= endPlankX) {
+  if (e.pageX >= startPlankX - cursorWidth + 10 && e.pageX <= endPlankX + 10) {
     const weight = createWeight(e.pageX, startPlankX);
     nextWeight = createRondomNumber();
     determiningDirectionAndDistance(e.pageX, weight);
