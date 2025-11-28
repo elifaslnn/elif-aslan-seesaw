@@ -22,8 +22,21 @@ const startPlankX = plankPosition.left;
 const endPlankX = startPlankX + plankPosition.width - cursorWidth;
 
 const resetBtn = document.querySelector("#resetBtn");
-
+const popAudio = document.querySelector("#popAudio");
 let nextWeight;
+
+const weightObject = {
+  1: { color: "#FFB300", width: 20 },
+  2: { color: "#FF7043", width: 22 },
+  3: { color: "#ff7676ff", width: 24 },
+  4: { color: "#FF4081", width: 26 },
+  5: { color: "#E040FB", width: 28 },
+  6: { color: "#a88bf8ff", width: 30 },
+  7: { color: "#7187ffff", width: 32 },
+  8: { color: "#40C4FF", width: 34 },
+  9: { color: "#18FFFF", width: 36 },
+  10: { color: "#64FFDA", width: 38 },
+};
 
 //creating random number
 const createRondomNumber = () => {
@@ -44,12 +57,13 @@ const createWeight = (x, startPlankX) => {
     className: "allWeights",
   });
   //add id: first get count of planks child for set id
-  const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak1(cursor point var) o yüzden -1 değerini alacağım
+  const childNodesCount = seesawPlank.childElementCount; //önce 1 olacak(cursor point var) o yüzden -1 değerini alacağım
   weight.setAttribute("id", `weight-${childNodesCount - 1}`);
   //CSS
-  weight.style.height = "30px";
-  weight.style.width = "30px";
-  weight.style.backgroundColor = "white";
+  console.log(`${weightObject[nextWeight].width}`);
+  weight.style.height = `${weightObject[nextWeight].width}px`;
+  weight.style.width = `${weightObject[nextWeight].width}px`;
+  weight.style.backgroundColor = `${weightObject[nextWeight].color}`;
   weight.style.borderRadius = "50%";
   weight.style.textAlign = "center";
   weight.style.position = "absolute";
@@ -57,10 +71,10 @@ const createWeight = (x, startPlankX) => {
   weight.style.zIndex = 2;
   weight.style.textAlign = "center";
   weight.style.justifyItems = "center";
+  weight.style.animation = "createCircle 0.5s";
 
   weight.style.left = `${x - startPlankX - 10}px`;
   //sayıyı al
-  //const randomNumber = createRondomNumber();
   //sayıyı weight İÇİNE YAZ
   weight.innerHTML = `${nextWeight}kg`;
   //seesaw' a kaydet
@@ -96,6 +110,7 @@ clicable.addEventListener("mousemove", (e) => {
 });
 clicable.addEventListener("touchmove", (e) => {
   move(e);
+  cursorPoint.style.display = "none";
 });
 
 let leftTorque = 0;
@@ -159,6 +174,8 @@ const creatLog = (side, weight, distance) => {
 //adding weigths to clicked point
 clicable.addEventListener("click", (e) => {
   if (e.pageX >= startPlankX - cursorWidth + 10 && e.pageX <= endPlankX + 10) {
+    popAudio.play();
+    popAudio.currenTime = 0;
     const weight = createWeight(e.pageX, startPlankX);
     nextWeight = createRondomNumber();
     determiningDirectionAndDistance(e.pageX, weight);
@@ -177,3 +194,13 @@ clicable.addEventListener("click", (e) => {
 resetBtn.addEventListener("click", () => {
   location.reload();
 });
+
+function isMobile() {
+  const regex =
+    /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  return regex.test(navigator.userAgent);
+}
+
+if (isMobile()) {
+  cursorPoint.style.display = "none";
+}

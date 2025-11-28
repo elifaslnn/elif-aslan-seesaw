@@ -11,7 +11,7 @@ body {
   background-color: #f9f8f6;
 }
 #title {
-  font-family: "outfit";
+  font-family: "inter";
   padding: 30px;
   margin: 0;
   text-align: center;
@@ -137,6 +137,7 @@ body {
   height: 30px;
   padding-left: 10px;
   padding-top: 5px;
+  animation: createCircle 0.5s;
 }
 
 .logUl {
@@ -149,7 +150,7 @@ body {
   height: 300px;
   overflow: auto;
   scrollbar-color: #707070 #cacaca;
-  /* padding: 10px; */
+  padding-bottom: 10px;
   background-color: #efe9e3;
   border-radius: 10px;
 }
@@ -164,4 +165,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@keyframes createCircle {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
